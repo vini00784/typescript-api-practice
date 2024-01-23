@@ -8,9 +8,16 @@
   "scripts": {
     "build": "tsc",
     "start": "node build/index.js",
-    "dev": "ts-node-dev --ignore-watch node_modules src/index.ts"
+    "dev": "nodemon .src/index.ts"
   },
   "devDependencies": {
+    "@fastify/cors": "^8.5.0",
+    "@types/node": "^20.11.5",
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "fastify": "^4.25.2"
   }
 }
