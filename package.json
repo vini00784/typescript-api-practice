@@ -1,0 +1,16 @@
+{
+  "name": "typescript-api-practice",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:vini00784/typescript-api-practice.git",
+  "author": "vini00784 <vo70346@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "dev": "ts-node-dev --ignore-watch node_modules src/index.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
