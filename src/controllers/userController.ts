@@ -41,18 +41,41 @@ export default class UserController {
 
     async getAllUsers() {
         try {
-            const getUsers = await userModel.findAllUsers()
+            const usersInfos = await userModel.findAllUsers()
 
-            if(getUsers) {
+            if(usersInfos) {
                 return {
                     statusCode: 200,
-                    message: getUsers
+                    message: usersInfos
                 }
             } else {
                 return {
                     statusCode: 404,
                     message: messages.MESSAGE_ERROR.NOT_FOUND_DB
                 }
+            }
+        } catch (error) {
+            return {
+				statusCode: 500,
+				message: messages.MESSAGE_ERROR.INTERNAL_ERROR_DB,
+			};
+        }
+    }
+    
+    async getUserById(userId: number) {
+        try {
+            const userById = await userModel.findUserById(userId)
+
+            if(userById) {
+                return {
+                    statusCode: 200,
+                    message: userById
+                }
+            } else {
+                return {
+                    statusCode: 404,
+                    message: messages.MESSAGE_ERROR.NOT_FOUND_DB
+                } 
             }
         } catch (error) {
             return {

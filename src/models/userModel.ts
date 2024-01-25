@@ -30,4 +30,17 @@ export default class UserModel {
             throw new Error(`${error}`);
         }
     }
+
+    async findUserById(userId: number) {
+        try {
+            return await prisma.user.findUnique({
+                where: {
+                    id: userId
+                }
+            })
+        } catch (error) {
+            console.log(error);
+            throw new Error(`${error}`);
+        }
+    }
 };
