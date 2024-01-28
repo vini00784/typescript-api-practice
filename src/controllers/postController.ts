@@ -34,4 +34,27 @@ export default class PostController {
             }
         }
     }
+
+    async getAllPosts() {
+        try {
+            const postsInfos = await postModel.findAllPosts()
+
+            if(postsInfos) {
+                return {
+                    statusCode: 200,
+                    message: postsInfos
+                }
+            } else {
+                return {
+                    statusCode: 404,
+                    message: messages.MESSAGE_ERROR.NOT_FOUND_DB
+                }
+            }
+        } catch (error) {
+            return {
+				statusCode: 500,
+				message: messages.MESSAGE_ERROR.INTERNAL_ERROR_DB,
+			};
+        }
+    }
 }

@@ -16,4 +16,17 @@ export default class PostModel {
             throw new Error(`${error}`)
         }
     }
+
+    async findAllPosts() {
+        try {
+            return await prisma.post.findMany({
+                include: {
+                    user: true
+                }
+            })
+        } catch (error) {
+            console.log(error);
+            throw new Error(`${error}`)
+        }
+    }
 }

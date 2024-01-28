@@ -36,4 +36,18 @@ export async function postRoutes(fastify: FastifyInstance) {
 			reply.status(400).send({response: 'Unknown error'});
         }
     })
+
+    fastify.get('/posts', async(request, reply) => {
+        try {
+            const allPosts = await postController.getAllPosts()
+
+            reply
+                .status(allPosts.statusCode)
+                .send({ response: allPosts.message })
+        } catch (error) {
+            if (error instanceof Error)
+				reply.status(400).send({response: JSON.parse(error.message)});
+			reply.status(400).send({response: 'Unknown error'});
+        }
+    })
 }
