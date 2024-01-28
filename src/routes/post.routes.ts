@@ -50,4 +50,26 @@ export async function postRoutes(fastify: FastifyInstance) {
 			reply.status(400).send({response: 'Unknown error'});
         }
     })
+
+    fastify.get('/post/:postId', async(request, reply) => {
+        try {
+            const queryParams = z.object({
+                postId: z.string()
+            })
+
+            const { postId } = queryParams.parse(request.params)
+
+            if(!postId) reply.status(400).send({ response: messages.MESSAGE_ERROR.REQUIRED_ID })
+
+            const postById = await postController.getPostById(parseInt(postId))
+
+            reply
+                .status(postById.statusCode)
+                .send(postById.message)
+        } catch (error) {
+            if (error instanceof Error)
+				reply.status(400).send({response: JSON.parse(error.message)});
+			reply.status(400).send({response: 'Unknown error'});
+        }
+    })
 }

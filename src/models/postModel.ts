@@ -29,4 +29,20 @@ export default class PostModel {
             throw new Error(`${error}`)
         }
     }
+
+    async findPostById(postId: number) {
+        try {
+            return await prisma.post.findUnique({
+                where: {
+                    id: postId
+                },
+                include: {
+                    user: true
+                }
+            })
+        } catch (error) {
+            console.log(error);
+            throw new Error(`${error}`)
+        }
+    }
 }
