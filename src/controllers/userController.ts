@@ -1,7 +1,6 @@
 import Message from '../module/messages'
 import UserModel from '../models/userModel'
-import { Prisma } from '@prisma/client'
-import { CreateUserProps } from '../@types/userInfosProps'
+import { CreateUserProps, UpdateUserProps } from '../@types/userInfosProps'
 import bycript from '../lib/bcrypt'
 
 const userModel = new UserModel()
@@ -76,6 +75,29 @@ export default class UserController {
                     statusCode: 404,
                     message: messages.MESSAGE_ERROR.NOT_FOUND_DB
                 } 
+            }
+        } catch (error) {
+            return {
+				statusCode: 500,
+				message: messages.MESSAGE_ERROR.INTERNAL_ERROR_DB,
+			};
+        }
+    }
+
+    async updateUser(userId: number, userInfo: UpdateUserProps) {
+        try {
+            const updatedUser = await userModel.updateUser(userId, userInfo)
+
+            if(updatedUser) {
+                return {
+                    statusCode: 201,
+                    message: messages.MESSAGE_SUCESS.UPDATE_ITEM
+                }
+            } else {
+                return {
+                    statusCode: 400,
+                    message: messages.MESSAGE_ERROR.COULDNT_UPDATE_ITEM
+                }
             }
         } catch (error) {
             return {

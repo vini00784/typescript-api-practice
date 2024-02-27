@@ -71,4 +71,40 @@ export async function userRoutes(fastify: FastifyInstance) {
 			reply.status(400).send({response: 'Unknown error'});
         }
     })
+
+    fastify.put('/user/:userId', async(req, rep) => {
+        try {
+            const queryParams = z.object({
+                userId: z.string()
+            })
+
+            const { userId } = queryParams.parse(req.params)
+
+            if(!userId) rep.status(400).send({ response: messages.MESSAGE_ERROR.REQUIRED_ID })
+
+            const bodyParams = z.object({
+                name: z.string(),
+                email: z.string()
+            })
+
+            const rawBody = req.body
+
+            if(JSON.stringify(rawBody) === '{}')
+                rep
+                    .status(400)
+                    .send({ response: messages.MESSAGE_ERROR.EMPTY_BODY })
+
+            const body = bodyParams.parse(rawBody)
+
+            const updatedUser = await userController.updateUser(parseInt(userId), body)
+
+            rep
+                .send(updatedUser.message)
+                .status(updatedUser.statusCode)
+        } catch (error) {
+            if (error instanceof Error)
+				rep.status(400).send({response: JSON.parse(error.message)});
+			rep.status(400).send({response: 'Unknown error'});
+        }
+    })
 }

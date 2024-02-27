@@ -1,4 +1,4 @@
-import { CreateUserProps } from "../@types/userInfosProps";
+import { CreateUserProps, UpdateUserProps } from "../@types/userInfosProps";
 import prisma from "../lib/prisma";
 
 // prisma.entity_name.http_method
@@ -36,6 +36,23 @@ export default class UserModel {
             return await prisma.user.findUnique({
                 where: {
                     id: userId
+                }
+            })
+        } catch (error) {
+            console.log(error);
+            throw new Error(`${error}`);
+        }
+    }
+
+    async updateUser(userId: number, userInfo: UpdateUserProps) {
+        try {
+            return await prisma.user.update({
+                where: {
+                    id: userId
+                },
+                data: {
+                    email: userInfo.email,
+                    name: userInfo.name
                 }
             })
         } catch (error) {
